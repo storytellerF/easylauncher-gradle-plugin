@@ -1,14 +1,16 @@
 name: Publish Project to Gradle Plugin Portal
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
+
+env:
+  RELEASE_TAG: ${{ github.event.release.tag_name }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.repository == 'usefulness/easylauncher-gradle-plugin'
+    if: startsWith(github.event.release.tag_name, 'v') && (github.repository == 'usefulness/easylauncher-gradle-plugin')
     steps:
       - uses: actions/checkout@v7
         with:
